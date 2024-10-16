@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block content %}
+<div class="container text-center my-5">
+    <h1 class="display-5 fw-bold my-2">Welcome to PTIT</h1>
+    <p class="fs-3">Not just make your ranking in college but also in knowledge</p>
+    <div class="d-inline-flex gap-2 mb-5">
+        <a href="{% url 'all_quiz' %}" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4">
+            Take a quiz
+        </a>
+        {% if not request.session.access_token %}
+            <a href="{% url 'register' %}" class="btn btn-outline-secondary btn-lg px-4">
+                Register
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 mx-3">
+    <div class="col-lg-4 position-relative mb-4">
+        <img src="{% static 'img/user.jpg' %}" class="img-fluid" width="150" height="150" alt="user-profile">
+        <span class="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-success">1</span>
+        <h2 class="fw-normal">@Vu Ngoc Son</h2>
+        <p>Some representative placeholder content for the three columns of text below the.</p>
+        
+    </div>
+    <div class="col-lg-4 position-relative mb-4">
+        <img src="{% static 'img/user.jpg' %}" class="img-fluid" width="150" height="150" alt="user-profile">
+        <span class="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-success">2</span>
+        <h2 class="fw-normal">@Vu Ngoc Son</h2>
+        <p>Some representative placeholder content for the three columns of text below the.</p>
+        
+    </div>
+    <div class="col-lg-4 position-relative mb-4">
+        <img src="{% static 'img/user.jpg' %}" class="img-fluid" width="150" height="150" alt="user-profile">
+        <span class="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-success">3</span>
+        <h2 class="fw-normal">@Vu Ngoc Son</h2>
+        <p>Some representative placeholder content for the three columns of text below the.</p>
+        
+    </div>
+    <div class="col-lg-4 position-relative mb-4">
+        <img src="{% static 'img/user.jpg' %}" class="img-fluid" width="150" height="150" alt="user-profile">
+        <span class="position-absolute top-0 start-90 translate-middle badge rounded-pill bg-success">4</span>
+        <h2 class="fw-normal">@Vu Ngoc Son</h2>
+        <p>Some representative placeholder content for the three columns of text below the.</p>
+        
+    </div>
+</div>
+{% endblock %}

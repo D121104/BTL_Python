@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load form_tags %}
+
+{% block content %}
+
+<h1 class="display-4 text-center my-5">Login</h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <form method="post" class="p-4 border rounded-3 bg-light shadow-sm">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Email</label>
+                    {{ form.email|add_class:"form-control" }}
+                    {% if form.email.errors %}
+                        <div class="text-danger">
+                            {{ form.email.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="id_password" class="form-label">Password</label>
+                    {{ form.password|add_class:"form-control" }}
+                    {% if form.password.errors %}
+                        <div class="text-danger">
+                            {{ form.password.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe" name="remember_me">
+                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <div class="d-flex justify-content-between align-items-center my-4">
+                    <strong><a href="{% url 'password-reset' %}" class="btn btn-link p-0">Forgot password</a></strong>
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 me-2">Not a member?</p>
+                        <strong><a href="{% url 'register' %}" class="btn btn-link p-0">Register</a></strong>
+                    </div>
+                </div>
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger mt-3">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
