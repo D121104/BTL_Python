@@ -19,6 +19,8 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.forms import ValidationError
 import uuid
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
 
 class RegisterView(GenericAPIView):
     serializer_class = UserRegisterSerializer
@@ -30,11 +32,19 @@ class RegisterView(GenericAPIView):
         if serializer.is_valid() and form.is_valid():
             serializer.save()
             user = serializer.data
-            send_otp_email(user['email'])
-            return TemplateResponse(request, 'register.html', {
-                'form': form,
-                'data': user,
-                'message': 'User created successfully. Verify your email to activate your account'
+            site_domain = get_current_site(request).domain
+            relative_link = reverse('verify-email', kwargs={'email': user['email']})
+            abs_url = f'http://{site_domain}{relative_link}'
+            email_body = f'Hello, \nClick on the link below to verify your email \n{abs_url}'
+            data = {
+                'body': email_body,
+                'subject': 'Verify your email',
+                'to_email': user['email']
+            }
+            send_normal_email(data)
+            return TemplateResponse(request, 'login.html', {
+                'message': 'User created successfully',
+                'form' : UserLoginForm()
             }, status=status.HTTP_201_CREATED)
         else:
             form = UserRegisterForm(request.data)
@@ -49,18 +59,16 @@ class RegisterView(GenericAPIView):
 
 class VerifyUserEmail(GenericAPIView):
     serializer_class = VerifyUserEmailSerializer
-    def post(self, request):
-        try:
-            otp = request.data.get('otp')
-            user_pass = OneTimePassword.objects.get(otp=otp)
-            user = user_pass.user
-            if not user.is_verified:
-                user.is_verified = True
-                user.save()
-                return Response('Email verified successfully', status=status.HTTP_200_OK)
-            return Response('Email already verified', status=status.HTTP_400_BAD_REQUEST)
-        except OneTimePassword.DoesNotExist:
-            return Response('Invalid OTP', status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, email):
+        user = User.objects.get(email=email)
+        user.set_verified()
+        user.save()
+        send_normal_email({
+            'subject': 'Verification successful',
+            'body': f'Your email has been verified',
+            'to_email': user.email
+        })
+        return redirect('/api/auth/login')
     
 class LoginUserView(GenericAPIView):
     serializer_class = UserLoginSerializer

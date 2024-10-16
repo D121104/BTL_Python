@@ -37,6 +37,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_full_name(self):
         return self.first_name + ' ' + self.last_name
     
+    def set_password(self, raw_password: str | None) -> None:
+        return super().set_password(raw_password)
+    
+    def set_verified(self):
+        self.is_verified = True
+        self.save()
+    
     
 
 

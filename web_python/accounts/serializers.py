@@ -146,11 +146,15 @@ class LogoutUserSerializer(serializers.Serializer):
             self.fail('invalid_token')
         
 class VerifyUserEmailSerializer(serializers.Serializer):
-    otp = serializers.CharField()
+    email = serializers.EmailField(min_length=4, max_length=255)
     
     class Meta:
-        fields = ['otp']
-        
+        fields = ['email']
+
     def validate(self, attrs):
-        self.otp = attrs.get('otp')
-        return attrs
+        email = attrs.get('email')
+        user = User.objects.filter(email=email)
+        if not user.exists():
+            raise serializers.ValidationError('No user with this email address')
+            
+        return super().validate(attrs)

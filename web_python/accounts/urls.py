@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     path('register/', views.RegisterView.as_view(), name='register'),
-    path('verify-email/', views.VerifyUserEmail.as_view(), name='verify-email'),
+    path('verify-email/<str:email>', views.VerifyUserEmail.as_view(), name='verify-email'),
     path('login/', views.LoginUserView.as_view(), name='login'),
     path('password-reset/', views.PasswordResetRequestView.as_view(), name='password-reset'),
     path('password-reset-confirm/', views.PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
