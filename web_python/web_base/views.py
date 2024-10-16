@@ -1,20 +1,22 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic import TemplateView
 # Create your views here.
-def home(request):
-    return render(request, 'home.html')
+class HomeView(TemplateView):
+    template_name = 'home.html'
 
-def quiz(request):
-    return render(request, 'quiz.html')
+class QuizView(TemplateView):
+    template_name = 'quiz.html'
 
-def leaderboard(request):
-    return render(request, 'leaderboard.html')
+class LeaderboardView(TemplateView):
+    template_name = 'leaderboard.html'
 
-def blog(request):
-    return render(request, 'blog.html')
+class BlogView(TemplateView):
+    template_name = 'blog.html'
 
-def all_quiz(request):
-    return render(request, 'all_quiz.html')
+class AllQuizView(TemplateView):
+    template_name = 'all_quiz.html'
 
-def about_(request):
-    return render(request, 'about.html')
+class AboutView(TemplateView):
+    template_name = 'about.html'
+

@@ -152,12 +152,12 @@ env = environ.Env()
 environ.Env.read_env(BASE_DIR / '.env')
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Replace with your email provider's SMTP server
-EMAIL_PORT = 587  # Typically 587 for TLS, 465 for SSL
-EMAIL_USE_TLS = True  # Use TLS (True) or SSL (False)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')  # Replace with your email address
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')  # Replace with your email password
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # Default from email address
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True 
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD') 
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Sử dụng cookie để lưu trữ phiên làm việc
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
@@ -171,4 +171,4 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # Đảm bảo cookie phiên làm việc được thiết lập đúng cách
 SESSION_COOKIE_SECURE = False  # Đặt thành True nếu sử dụng HTTPS
 SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SAMESITE = 'Lax'  # Hoặc 'Strict' tùy thuộc vào yêu cầu của bạn
+SESSION_COOKIE_SAMESITE = 'Lax'
