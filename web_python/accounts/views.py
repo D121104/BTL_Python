@@ -43,8 +43,8 @@ class RegisterView(GenericAPIView):
             }
             send_normal_email(data)
             return TemplateResponse(request, 'login.html', {
-                'message': 'User created successfully',
-                'form' : UserLoginForm()
+                'message': 'User created successfully\nPlease verify your email to login. Check your email for the verification link',
+                'form' : UserLoginForm(),
             }, status=status.HTTP_201_CREATED)
         else:
             form = UserRegisterForm(request.data)
@@ -68,7 +68,10 @@ class VerifyUserEmail(GenericAPIView):
             'body': f'Your email has been verified',
             'to_email': user.email
         })
-        return redirect('/api/auth/login')
+        return TemplateResponse(request, 'login.html', {
+            'message': 'Email verified successfully',
+            'form' : UserLoginForm()
+        }, status=status.HTTP_200_OK)
     
 class LoginUserView(GenericAPIView):
     serializer_class = UserLoginSerializer
